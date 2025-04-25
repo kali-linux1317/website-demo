@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Portal | Login</title>
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #00b8ff;
+            --dark: #121212;
+            --light: #f0f0f0;
+            --gray: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 255, 157, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 157, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        .login-container {
+            background-color: rgba(34, 34, 34, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                var(--primary)
+            );
+            transform: rotate(30deg);
+            z-index: -1;
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-10%, -10%); }
+            50% { transform: rotate(30deg) translate(10%, 10%); }
+            100% { transform: rotate(30deg) translate(-10%, -10%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 255, 157, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .input-group input::placeholder {
+            color: #555;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 5px;
+            accent-color: var(--primary);
+        }
+
+        .forgot-password a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 8px;
+            color: var(--dark);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(255, 255, 255, 0.3)
+            );
+            transform: rotate(30deg);
+            animation: shine 4s infinite;
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .signup-link a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .signup-link a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .floating-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .dot {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .error-message {
+            color: #ff5555;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .gmail-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            background: #ffffff;
+            border: none;
+            border-radius: 8px;
+            color: #5f6368;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .gmail-login:hover {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .gmail-login img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .divider::before {
+            margin-right: 10px;
+        }
+
+        .divider::after {
+            margin-left: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Tech Website Styles (hidden by default) */
+        .tech-website {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--dark);
+            z-index: 100;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tech-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(34, 34, 34, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 157, 0.2);
+        }
+
+        .tech-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tech-nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .tech-nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .tech-nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .tech-hero {
+            padding: 80px 40px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.05), rgba(0, 184, 255, 0.05));
+        }
+
+        .tech-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tech-hero p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .tech-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 60px 40px;
+        }
+
+        .tech-feature-card {
+            background: rgba(34, 34, 34, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tech-feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+        }
+
+        .tech-feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .tech-feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .tech-feature-card p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .tech-footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(0, 255, 157, 0.1);
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .user-name {
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #ff5555;
+            cursor: pointer;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="floating-dots" id="dots-container"></div>
+    
+    <div class="login-container">
+        <div class="logo">
+            <h1>TECH PORTAL</h1>
+            <p>Access the future</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+                <div class="error-message" id="username-error"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn">LOGIN</button>
+            
+            <div class="divider">OR</div>
+            
+            <button type="button" class="gmail-login" id="gmailLogin">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
+                Sign in with Gmail
+            </button>
+            
+            <div class="signup-link">
+                Don't have an account? <a href="#">Sign up</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tech Website (hidden until login) -->
+    <div class="tech-website" id="techWebsite">
+        <nav class="tech-navbar">
+            <div class="tech-logo">TECHNOVA</div>
+            <div class="tech-nav-links">
+                <a href="#">Home</a>
+                <a href="#">Products</a>
+                <a href="#">Solutions</a>
+                <a href="#">Pricing</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="user-profile" id="userProfile">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-name" id="userName">User</div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </nav>
+
+        <section class="tech-hero">
+            <h1>Welcome to the Future</h1>
+            <p>Experience cutting-edge technology solutions that transform businesses and empower innovation across industries.</p>
+            <button class="login-btn" style="width: auto; padding: 15px 30px;">Explore Products</button>
+        </section>
+
+        <section class="tech-features">
+            <div class="tech-feature-card">
+                <div class="tech-feature-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Our proprietary algorithms deliver unmatched performance with near-zero latency for all your critical operations.</p>
+            </div>
+            <div class="tech-feature-card">
+                <div class="tech-feature-icon">🔒</div>
+                <h3>Secure by Design</h3>
+                <p>Military-grade encryption and zero-trust architecture ensure your data remains protected at all times.</p>
+            </div>
+            <div class="tech-feature-card">
+                <div class="tech-feature-icon">🌐</div>
+                <h3>Global Infrastructure</h3>
+                <p>With data centers in 28 countries, we provide seamless service wherever your business takes you.</p>
+            </div>
+            <div class="tech-feature-card">
+                <div class="tech-feature-icon">🤖</div>
+                <h3>AI Powered</h3>
+                <p>Our intelligent systems learn and adapt to your workflows, becoming more valuable every day.</p>
+            </div>
+            <div class="tech-feature-card">
+                <div class="tech-feature-icon">📊</div>
+                <h3>Data Analytics</h3>
+                <p>Transform raw data into actionable insights with our powerful visualization and reporting tools.</p>
+            </div>
+            <div class="tech-feature-card">
+                <div class="tech-feature-icon">🔄</div>
+                <h3>Continuous Updates</h3>
+                <p>We deliver new features and improvements weekly, with no downtime required.</p>
+            </div>
+        </section>
+
+        <footer class="tech-footer">
+            © 2023 Technova Inc. All rights reserved. | <a href="#" style="color: var(--secondary);">Privacy Policy</a> | <a href="#" style="color: var(--secondary);">Terms of Service</a>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating dots
+        const dotsContainer = document.getElementById('dots-container');
+        const dotCount = 30;
+        
+        for (let i = 0; i < dotCount; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            
+            // Random position
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100 + 100; // Start below viewport
+            
+            // Random size
+            const size = Math.random() * 3 + 2;
+            
+            // Random animation duration
+            const duration = Math.random() * 10 + 10;
+            
+            // Random delay
+            const delay = Math.random() * -20;
+            
+            dot.style.left = `${posX}%`;
+            dot.style.top = `${posY}%`;
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.animationDuration = `${duration}s`;
+            dot.style.animationDelay = `${delay}s`;
+            
+            // Random color variation
+            const hue = Math.random() * 60 + 140; // Blue-green range
+            dot.style.backgroundColor = `hsla(${hue}, 100%, 50%, 0.5)`;
+            
+            dotsContainer.appendChild(dot);
+        }
+        
+        // Form validation
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameError = document.getElementById('username-error');
+        const passwordError = document.getElementById('password-error');
+        const gmailLoginBtn = document.getElementById('gmailLogin');
+        const techWebsite = document.getElementById('techWebsite');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        // Simulate Gmail login
+        gmailLoginBtn.addEventListener('click', function() {
+            // Show loading state
+            gmailLoginBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo"> Authenticating...';
+            gmailLoginBtn.style.background = '#f1f1f1';
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Generate a random user for demo purposes
+                const randomUsers = ['Alex Johnson', 'Sam Wilson', 'Taylor Smith', 'Jordan Lee', 'Casey Brown'];
+                const randomUser = randomUsers[Math.floor(Math.random() * randomUsers.length)];
+                const userInitial = randomUser.charAt(0);
+                
+                // Set user info
+                userAvatar.textContent = userInitial;
+                userName.textContent = randomUser;
+                
+                // Hide login and show tech website
+                document.querySelector('.login-container').style.display = 'none';
+                techWebsite.style.display = 'block';
+                
+                // Reset Gmail button
+                gmailLoginBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo"> Sign in with Gmail';
+                gmailLoginBtn.style.background = '#ffffff';
+            }, 1500);
+        });
+        
+        // Regular form login
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+            
+            // Validate username
+            if (usernameInput.value.trim() === '') {
+                usernameError.textContent = 'Username is required';
+                usernameError.style.display = 'block';
+                usernameInput.style.borderColor = '#ff5555';
+                isValid = false;
+            } else {
+                usernameError.style.display = 'none';
+                usernameInput.style.borderColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            // Validate password
+            if (passwordInput.value.trim() === '') {
+                passwordError.textContent = 'Password is required';
+                passwordError.style.display = 'block';
+                passwordInput.style.borderColor = '#ff5555';
+                isValid = false;
+            } else if (passwordInput.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters';
+                passwordError.style.display = 'block';
+                passwordInput.style.borderColor = '#ff5555';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+                passwordInput.style.borderColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            if (isValid) {
+                const loginBtn = document.querySelector('.login-btn');
+                loginBtn.textContent = 'AUTHENTICATING...';
+                loginBtn.style.background = 'linear-gradient(to right, #555, #777)';
+                
+                setTimeout(() => {
+                    // Set user info for regular login
+                    const username = usernameInput.value.trim();
+                    const userInitial = username.charAt(0).toUpperCase();
+                    
+                    userAvatar.textContent = userInitial;
+                    userName.textContent = username;
+                    
+                    // Hide login and show tech website
+                    document.querySelector('.login-container').style.display = 'none';
+                    techWebsite.style.display = 'block';
+                    
+                    // Reset login button
+                    loginBtn.textContent = 'LOGIN';
+                    loginBtn.style.background = 'linear-gradient(to right, var(--primary), var(--secondary))';
+                }, 1500);
+            }
+        });
+        
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            // Hide tech website and show login
+            techWebsite.style.display = 'none';
+            document.querySelector('.login-container').style.display = 'block';
+            
+            // Clear form fields
+            usernameInput.value = '';
+            passwordInput.value = '';
+        });
+        
+        // Add focus effects
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('label').style.color = 'var(--primary)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('label').style.color = 'var(--light)';
+            });
+        });
+    </script>
+</body>
+</html>
